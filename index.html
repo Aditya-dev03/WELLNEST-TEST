@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Test - WELLNEST</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000000;
+            color: #FFD700;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        .logo {
+            margin-top: 20px;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #1a1a1a;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .options label {
+            display: block;
+            padding: 5px 0;
+        }
+
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #FFD700;
+            color: #000000;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .submit-button:hover {
+            background-color: #FFA500;
+            transform: scale(1.05);
+        }
+
+        #result-container {
+            display: none;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #222;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        #result-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="./Logo.png" alt="WELLNEST Logo" width="150">
+    </div>
+    
+    <div class="form-container">
+        <h1>Mental Health Test</h1>
+        <p>Take this short test to assess your mental well-being.</p>
+
+        <form id="mentalHealthForm">
+            <div class="form-group">
+                <label>1. How often do you feel stressed?</label>
+                <div class="options">
+                    <label><input type="radio" name="stress" value="1"> Never</label>
+                    <label><input type="radio" name="stress" value="2"> Rarely</label>
+                    <label><input type="radio" name="stress" value="3"> Sometimes</label>
+                    <label><input type="radio" name="stress" value="4"> Often</label>
+                    <label><input type="radio" name="stress" value="5"> Always</label>
+                </div>
+            </div>
+            
+            <script>
+                const questions = [
+                    "Do you have trouble sleeping?",
+                    "How would you rate your overall mood?",
+                    "How often do you feel lonely or isolated?",
+                    "Do you find it hard to concentrate on tasks?",
+                    "How often do you feel overwhelmed by responsibilities?",
+                    "How often do you engage in physical activity?",
+                    "How often do you feel supported by friends or family?",
+                    "How often do you feel happy or content?",
+                    "Do you feel comfortable seeking help for mental health issues?",
+                    "How often do you feel fatigued or low on energy?",
+                    "Do you experience mood swings frequently?"
+                ];
+
+                let form = document.getElementById("mentalHealthForm");
+
+                questions.forEach((question, index) => {
+                    let div = document.createElement("div");
+                    div.className = "form-group";
+                    div.innerHTML = `<label>${index + 2}. ${question}</label>
+                        <div class="options">
+                            <label><input type="radio" name="q${index + 2}" value="1"> Never</label>
+                            <label><input type="radio" name="q${index + 2}" value="2"> Rarely</label>
+                            <label><input type="radio" name="q${index + 2}" value="3"> Sometimes</label>
+                            <label><input type="radio" name="q${index + 2}" value="4"> Often</label>
+                            <label><input type="radio" name="q${index + 2}" value="5"> Always</label>
+                        </div>`;
+                    form.insertBefore(div, form.lastElementChild);
+                });
+            </script>
+
+            <button type="button" class="submit-button" onclick="analyzeResults()">Submit Test</button>
+        </form>
+    </div>
+
+    <div id="result-container">
+        <h2>Your Mental Health Analysis</h2>
+        <p id="result-text"></p>
+    </div>
+
+    <script>
+        function analyzeResults() {
+            let scores = document.querySelectorAll("input[type='radio']:checked");
+            let totalScore = 0;
+            
+            scores.forEach(input => {
+                totalScore += parseInt(input.value);
+            });
+            
+            let resultText = "";
+            if (totalScore <= 15) {
+                resultText = "You're doing well! Keep up the positive habits.";
+            } else if (totalScore <= 35) {
+                resultText = "You may be experiencing some stress. Consider self-care strategies.";
+            } else {
+                resultText = "High stress levels detected. It may help to speak to a professional.";
+            }
+
+            document.getElementById("result-text").innerText = resultText;
+            document.getElementById("result-container").style.display = "block";
+        }
+    </script>
+</body>
+</html>
